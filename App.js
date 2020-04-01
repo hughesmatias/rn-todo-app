@@ -4,7 +4,7 @@ import {
   Text,
   View,
   FlatList,
-  Platform
+  TouchableOpacity,
 } from 'react-native';
 
 export default function App() {
@@ -33,7 +33,11 @@ export default function App() {
       <FlatList
         style={styles.listContainer}
         data={tasks}
-        renderItem={({ item }) => <Text style={styles.taskElement}>{item.description}</Text>}
+        renderItem={({ item }) =>
+          <TouchableOpacity style={styles.taskElement} onPress={() => console.log(item.id)}>
+            <Text>{item.description}</Text>
+          </TouchableOpacity>
+        }
         keyExtractor={(item) => item.id}
       />
     </View>
@@ -57,6 +61,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderStyle: 'solid',
     borderWidth: 2,
-    fontSize: 20
+    fontSize: 20,
+    margin: 15
   }
 });
