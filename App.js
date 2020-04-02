@@ -27,19 +27,30 @@ export default function App() {
     }
   ])
 
+  const removeTask = (id) => {
+    setTask(
+      tasks.filter(task => task.id != id)
+    )
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>List of tasks</Text>
-      <FlatList
-        style={styles.listContainer}
-        data={tasks}
-        renderItem={({ item }) =>
-          <TouchableOpacity style={styles.taskElement} onPress={() => console.log(item.id)}>
-            <Text>{item.description}</Text>
-          </TouchableOpacity>
-        }
-        keyExtractor={(item) => item.id}
-      />
+      {
+        tasks == 0 ?
+        <Text style={styles.emptyList}>You dont have any task.</Text>
+        :
+        <FlatList
+          style={styles.listContainer}
+          data={tasks}
+          renderItem={({ item }) =>
+            <TouchableOpacity style={styles.taskElement} onPress={() => removeTask(item.id)}>
+              <Text>{item.description}</Text>
+            </TouchableOpacity>
+          }
+          keyExtractor={(item) => item.id.toString()}
+        />
+      }
     </View>
   );
 }
@@ -53,6 +64,9 @@ const styles = StyleSheet.create({
   title: {
     backgroundColor: 'red',
     fontSize: 30,
+  },
+  emptyList: {
+    fontSize: 25,
   },
   listContainer: {
     backgroundColor: '#f0f0f0'
