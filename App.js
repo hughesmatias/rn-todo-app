@@ -5,9 +5,12 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  TextInput,
+  Button,
 } from 'react-native';
 
 export default function App() {
+  const [ newTask, setNewTask ] = useState("");
   const [ tasks, setTask ] = useState([
     {
       id: 1,
@@ -33,9 +36,33 @@ export default function App() {
     )
   }
 
+  const onChangeHandle = text => setNewTask(text)
+
+  const addTask = () => {
+    tasks.push({
+      id: Math.random(),
+      description: newTask,
+    });
+    setNewTask("");
+  }
+
+  const isEmptyNewTaskInput = () => newTask.length > 0 ? false : true;
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>List of tasks</Text>
+      <View>
+        <TextInput
+          placeholder="Write your task."
+          onChangeText={onChangeHandle}
+          value={newTask}
+        />
+        <Button
+          title="Save new Task"
+          onPress={addTask}
+          disabled={(isEmptyNewTaskInput())}
+        />
+      </View>
       {
         tasks == 0 ?
         <Text style={styles.emptyList}>You dont have any task.</Text>
